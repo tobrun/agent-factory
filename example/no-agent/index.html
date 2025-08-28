@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapbox GL JS Map</title>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .map-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgba(255, 255, 255, 0.8);
+            margin-left: 20px;
+            font-family: Arial, sans-serif;
+            overflow: auto;
+            border-radius: 3px;
+            padding: 10px;
+            margin-top: 20px;
+            z-index: 1;
+        }
+
+        .map-overlay h3 {
+            margin: 0 0 10px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <div class="map-overlay">
+        <h3>Mapbox GL JS Map</h3>
+        <p>Replace 'YOUR_MAPBOX_ACCESS_TOKEN' with your actual token</p>
+    </div>
+
+    <script>
+        // Set your Mapbox access token here
+        mapboxgl.accessToken = 'YOUR_MAPBOX_ACCESS_TOKEN';
+
+        // Initialize the map
+        const map = new mapboxgl.Map({
+            container: 'map', // container ID
+            style: 'mapbox://styles/mapbox/streets-v12', // style URL
+            center: [-74.006, 40.7128], // starting position [lng, lat] - New York City
+            zoom: 12 // starting zoom level
+        });
+
+        // Add navigation controls (zoom in/out buttons)
+        map.addControl(new mapboxgl.NavigationControl());
+
+        // Add a marker at the center of the map
+        new mapboxgl.Marker()
+            .setLngLat([-74.006, 40.7128])
+            .setPopup(new mapboxgl.Popup().setHTML('<h4>New York City</h4><p>The Big Apple!</p>'))
+            .addTo(map);
+
+        // Map load event
+        map.on('load', function() {
+            console.log('Map loaded successfully!');
+        });
+
+        // Optional: Add click event to show coordinates
+        map.on('click', function(e) {
+            console.log('Clicked at:', e.lngLat);
+        });
+    </script>
+</body>
+</html>
